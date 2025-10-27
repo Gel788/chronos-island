@@ -95,3 +95,18 @@ jspm_packages/
 
 # TernJS port file
 .tern-port
+
+# Large image files (over 1MB) - exclude from git
+images/*.png
+images/*.jpg
+images/*.jpeg
+images/*.gif
+images/*.bmp
+images/*.tiff
+images/*.webp
+
+# Keep only optimized images in public folder
+!public/images/*.png
+!public/images/*.jpg
+!public/images/*.jpeg
+!public/images/*.webp

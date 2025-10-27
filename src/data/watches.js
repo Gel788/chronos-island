@@ -1,5 +1,7 @@
 // Данные о часах для магазина CHRONOS island
 
+import { watchSVGImages } from './svgImages.js'
+
 // Массив с путями к изображениям часов
 const watchImages = [
   '/images/204ab6e2-8d86-11f0-9f5d-1831bf6bdca3_204ab6e4-8d86-11f0-9f5d-1831bf6bdca3.png',
@@ -13,9 +15,15 @@ const watchImages = [
   '/images/c06d2bc6-9706-11e8-bc64-1831bf6bdca3_53c03c31-4fae-11e9-bc88-1831bf6bdca3.png'
 ]
 
-// Функция для получения изображения по индексу
+// Функция для получения изображения по индексу с fallback на SVG
 const getWatchImage = (index) => {
-  return watchImages[index % watchImages.length]
+  // Сначала пробуем загрузить PNG изображение
+  const pngImage = watchImages[index % watchImages.length]
+  
+  // Если PNG не загружается, используем SVG как резерв
+  const svgImage = watchSVGImages[index % watchSVGImages.length]
+  
+  return pngImage || svgImage
 }
 
 // Функция для создания SVG изображений часов (резерв)
