@@ -2,28 +2,28 @@
 
 import { watchSVGImages } from './svgImages.js'
 
-// Массив с путями к изображениям часов
+// Массив с путями к оптимизированным изображениям часов
 const watchImages = [
-  '/images/204ab6e2-8d86-11f0-9f5d-1831bf6bdca3_204ab6e4-8d86-11f0-9f5d-1831bf6bdca3.png',
-  '/images/204ab6e2-8d86-11f0-9f5d-1831bf6bdca3_204ab6e8-8d86-11f0-9f5d-1831bf6bdca3.png',
-  '/images/3df8deb5-d0b4-11ea-bcdf-1831bf6bdca3_81dcfcc1-d0b4-11ea-bcdf-1831bf6bdca3.png',
-  '/images/3df8deb5-d0b4-11ea-bcdf-1831bf6bdca3_81dcfcc4-d0b4-11ea-bcdf-1831bf6bdca3.png',
-  '/images/71599f1b-7b4d-11ef-9f54-1831bf6bdca3_ab03f704-b244-11ef-9f58-1831bf6bdca3.png',
-  '/images/71599f1b-7b4d-11ef-9f54-1831bf6bdca3_ab03f705-b244-11ef-9f58-1831bf6bdca3.png',
-  '/images/b545f5d5-9d2e-11eb-bd04-1831bf6bdca3_4bb8e38b-9d2f-11eb-bd04-1831bf6bdca3.png',
-  '/images/c06d2bc6-9706-11e8-bc64-1831bf6bdca3_03475ea5-9707-11e8-bc64-1831bf6bdca3.png',
-  '/images/c06d2bc6-9706-11e8-bc64-1831bf6bdca3_53c03c31-4fae-11e9-bc88-1831bf6bdca3.png'
+  '/images/optimized/204ab6e2-8d86-11f0-9f5d-1831bf6bdca3_204ab6e4-8d86-11f0-9f5d-1831bf6bdca3.jpg',
+  '/images/optimized/204ab6e2-8d86-11f0-9f5d-1831bf6bdca3_204ab6e8-8d86-11f0-9f5d-1831bf6bdca3.jpg',
+  '/images/optimized/3df8deb5-d0b4-11ea-bcdf-1831bf6bdca3_81dcfcc1-d0b4-11ea-bcdf-1831bf6bdca3.jpg',
+  '/images/optimized/3df8deb5-d0b4-11ea-bcdf-1831bf6bdca3_81dcfcc4-d0b4-11ea-bcdf-1831bf6bdca3.jpg',
+  '/images/optimized/71599f1b-7b4d-11ef-9f54-1831bf6bdca3_ab03f704-b244-11ef-9f58-1831bf6bdca3.jpg',
+  '/images/optimized/71599f1b-7b4d-11ef-9f54-1831bf6bdca3_ab03f705-b244-11ef-9f58-1831bf6bdca3.jpg',
+  '/images/optimized/b545f5d5-9d2e-11eb-bd04-1831bf6bdca3_4bb8e38b-9d2f-11eb-bd04-1831bf6bdca3.jpg',
+  '/images/optimized/c06d2bc6-9706-11e8-bc64-1831bf6bdca3_03475ea5-9707-11e8-bc64-1831bf6bdca3.jpg',
+  '/images/optimized/c06d2bc6-9706-11e8-bc64-1831bf6bdca3_53c03c31-4fae-11e9-bc88-1831bf6bdca3.jpg'
 ]
 
 // Функция для получения изображения по индексу с fallback на SVG
 const getWatchImage = (index) => {
-  // Сначала пробуем загрузить PNG изображение
-  const pngImage = watchImages[index % watchImages.length]
+  // Используем оптимизированные JPG изображения
+  const optimizedImage = watchImages[index % watchImages.length]
   
-  // Если PNG не загружается, используем SVG как резерв
+  // Если оптимизированное изображение не загружается, используем SVG как резерв
   const svgImage = watchSVGImages[index % watchSVGImages.length]
   
-  return pngImage || svgImage
+  return optimizedImage || svgImage
 }
 
 // Функция для создания SVG изображений часов (резерв)

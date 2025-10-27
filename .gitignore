@@ -105,8 +105,9 @@ images/*.bmp
 images/*.tiff
 images/*.webp
 
-# Keep only optimized images in public folder
-!public/images/*.png
-!public/images/*.jpg
-!public/images/*.jpeg
-!public/images/*.webp
+# Exclude large PNG files from public folder
+public/images/*.png
+
+# Keep only optimized JPG images in public folder
+!public/images/optimized/*.jpg
+!public/images/optimized/*.jpeg
