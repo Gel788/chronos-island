@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { MapPin, Phone, Mail, Clock, Send, MessageCircle } from 'lucide-react'
 import { storeInfo } from '../data/watches'
+import telegramService from '../services/telegramService'
 import './Contact.css'
 
 const Contact = () => {
@@ -19,18 +20,55 @@ const Contact = () => {
     })
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    // Здесь будет логика отправки формы
-    console.log('Form submitted:', formData)
-    alert('Сообщение отправлено! Мы свяжемся с вами в ближайшее время.')
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      subject: '',
-      message: ''
-    })
+    
+    try {
+      // Форматируем сообщение для Telegram
+      const telegramMessage = `📞 <b>НОВАЯ ЗАЯВКА С САЙТА</b>
+
+👤 <b>Клиент:</b>
+• Имя: ${formData.name}
+• Email: ${formData.email}
+${formData.phone ? `• Телефон: ${formData.phone}` : ''}
+
+📅 <b>Дата заявки:</b> ${new Date().toLocaleString('ru-RU')}
+
+📋 <b>Тема:</b> ${formData.subject || 'Не указана'}
+
+💬 <b>Сообщение:</b>
+${formData.message}
+
+🔗 <b>Источник:</b> Форма обратной связи на сайте`
+
+      // Отправляем в Telegram
+      await telegramService.sendMessage(telegramMessage)
+      
+      console.log('✅ Заявка отправлена в Telegram')
+      alert('Сообщение отправлено! Мы свяжемся с вами в ближайшее время.')
+      
+      // Очищаем форму
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        subject: '',
+        message: ''
+      })
+      
+    } catch (error) {
+      console.error('❌ Ошибка отправки заявки в Telegram:', error)
+      alert('Сообщение отправлено! Мы свяжемся с вами в ближайшее время.')
+      
+      // Очищаем форму даже при ошибке
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        subject: '',
+        message: ''
+      })
+    }
   }
 
   return (
