@@ -2,12 +2,15 @@ import React, { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { Heart, ShoppingBag, Star, ArrowLeft, Check, Truck, Shield, RotateCcw } from 'lucide-react'
 import { allWatches } from '../data/watches'
+import { useCart } from '../contexts/CartContext'
 import './Product.css'
 
 const Product = () => {
   const { id } = useParams()
+  const { addToCart } = useCart()
   const [selectedImage, setSelectedImage] = useState(0)
   const [quantity, setQuantity] = useState(1)
+  const [isAddedToCart, setIsAddedToCart] = useState(false)
   
   const watch = allWatches.find(w => w.id === parseInt(id))
   
@@ -30,6 +33,12 @@ const Product = () => {
     watch.image,
     watch.image
   ]
+
+  const handleAddToCart = () => {
+    addToCart(watch)
+    setIsAddedToCart(true)
+    setTimeout(() => setIsAddedToCart(false), 2000)
+  }
 
   const relatedWatches = allWatches
     .filter(w => w.brand === watch.brand && w.id !== watch.id)
@@ -138,9 +147,13 @@ const Product = () => {
               </div>
 
               <div className="action-buttons">
-                <button className="btn btn-primary add-to-cart">
+                <button 
+                  className="btn btn-primary add-to-cart"
+                  onClick={handleAddToCart}
+                  disabled={isAddedToCart}
+                >
                   <ShoppingBag size={20} />
-                  Добавить в корзину
+                  {isAddedToCart ? 'Добавлено в корзину!' : 'Добавить в корзину'}
                 </button>
                 <button className="btn btn-secondary wishlist">
                   <Heart size={20} />

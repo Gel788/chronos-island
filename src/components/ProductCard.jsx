@@ -1,9 +1,18 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Heart, ShoppingBag, Star } from 'lucide-react'
+import { useCart } from '../contexts/CartContext'
 import './ProductCard.css'
 
 const ProductCard = ({ watch }) => {
+  const { addToCart } = useCart()
+
+  const handleAddToCart = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    addToCart(watch)
+  }
+
   return (
     <div className="product-card">
       <div className="product-image">
@@ -14,7 +23,11 @@ const ProductCard = ({ watch }) => {
           <button className="action-btn wishlist-btn">
             <Heart size={18} />
           </button>
-          <button className="action-btn cart-btn">
+          <button 
+            className="action-btn cart-btn"
+            onClick={handleAddToCart}
+            title="Добавить в корзину"
+          >
             <ShoppingBag size={18} />
           </button>
         </div>

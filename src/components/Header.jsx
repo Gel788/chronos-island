@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Menu, X, ShoppingBag, Search, Clock } from 'lucide-react'
+import { useCart } from '../contexts/CartContext'
 import './Header.css'
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isSearchOpen, setIsSearchOpen] = useState(false)
+  const { itemCount } = useCart()
   const location = useLocation()
 
   const navigation = [
@@ -49,10 +51,10 @@ const Header = () => {
             >
               <Search size={20} />
             </button>
-            <button className="action-btn">
+            <Link to="/cart" className="action-btn cart-link">
               <ShoppingBag size={20} />
-              <span className="cart-count">0</span>
-            </button>
+              {itemCount > 0 && <span className="cart-count">{itemCount}</span>}
+            </Link>
             <button 
               className="menu-toggle"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -90,6 +92,13 @@ const Header = () => {
                 {item.name}
               </Link>
             ))}
+            <Link
+              to="/cart"
+              className="nav-link"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Корзина {itemCount > 0 && `(${itemCount})`}
+            </Link>
           </nav>
         )}
       </div>
