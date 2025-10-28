@@ -36,6 +36,7 @@ const Product = () => {
   ]
 
   const handleAddToCart = () => {
+    console.log('Adding to cart:', watch.name, 'quantity:', quantity)
     // Добавляем товар в корзину с выбранным количеством
     for (let i = 0; i < quantity; i++) {
       addToCart(watch)
