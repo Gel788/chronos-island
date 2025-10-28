@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { ArrowLeft, CheckCircle, MapPin, Clock, Phone } from 'lucide-react'
 import { useCart } from '../contexts/CartContext'
+import telegramService from '../services/telegramService'
 import './Checkout.css'
 
 const Checkout = () => {
@@ -61,32 +62,46 @@ const Checkout = () => {
     e.preventDefault()
     setIsSubmitting(true)
 
-    // Симуляция отправки заказа
-    await new Promise(resolve => setTimeout(resolve, 2000))
+    try {
+      // Создаем объект заказа
+      const order = {
+        id: Date.now(),
+        items: items,
+        total: total,
+        customer: formData,
+        pickupLocation: 'ТЦ Рио Ленинский',
+        status: 'pending',
+        createdAt: new Date().toISOString()
+      }
 
-    // Создаем объект заказа
-    const order = {
-      id: Date.now(),
-      items: items,
-      total: total,
-      customer: formData,
-      pickupLocation: 'ТЦ Рио Ленинский',
-      status: 'pending',
-      createdAt: new Date().toISOString()
+      // Отправляем уведомление в Telegram
+      try {
+        await telegramService.sendNewOrderNotification(order)
+        console.log('✅ Telegram notification sent successfully')
+      } catch (telegramError) {
+        console.error('❌ Failed to send Telegram notification:', telegramError)
+        // Не прерываем процесс оформления заказа, если Telegram недоступен
+      }
+
+      // Сохраняем заказ в localStorage
+      const orders = JSON.parse(localStorage.getItem('orders') || '[]')
+      orders.push(order)
+      localStorage.setItem('orders', JSON.stringify(orders))
+
+      setIsSuccess(true)
+      clearCart()
+      
+      // Перенаправляем на страницу успеха через 3 секунды
+      setTimeout(() => {
+        navigate('/')
+      }, 3000)
+
+    } catch (error) {
+      console.error('Error processing order:', error)
+      alert('Произошла ошибка при оформлении заказа. Попробуйте еще раз.')
+    } finally {
+      setIsSubmitting(false)
     }
-
-    // Сохраняем заказ в localStorage (в реальном приложении отправляем на сервер)
-    const orders = JSON.parse(localStorage.getItem('orders') || '[]')
-    orders.push(order)
-    localStorage.setItem('orders', JSON.stringify(orders))
-
-    setIsSuccess(true)
-    clearCart()
-    
-    // Перенаправляем на страницу успеха через 3 секунды
-    setTimeout(() => {
-      navigate('/')
-    }, 3000)
   }
 
   const formatPrice = (price) => {
