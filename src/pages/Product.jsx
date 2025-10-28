@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useNavigate } from 'react-router-dom'
 import { Heart, ShoppingBag, Star, ArrowLeft, Check, Truck, Shield, RotateCcw } from 'lucide-react'
 import { allWatches } from '../data/watches'
 import { useCart } from '../contexts/CartContext'
@@ -7,6 +7,7 @@ import './Product.css'
 
 const Product = () => {
   const { id } = useParams()
+  const navigate = useNavigate()
   const { addToCart } = useCart()
   const [selectedImage, setSelectedImage] = useState(0)
   const [quantity, setQuantity] = useState(1)
@@ -35,7 +36,10 @@ const Product = () => {
   ]
 
   const handleAddToCart = () => {
-    addToCart(watch)
+    // Добавляем товар в корзину с выбранным количеством
+    for (let i = 0; i < quantity; i++) {
+      addToCart(watch)
+    }
     setIsAddedToCart(true)
     setTimeout(() => setIsAddedToCart(false), 2000)
   }
@@ -153,8 +157,16 @@ const Product = () => {
                   disabled={isAddedToCart}
                 >
                   <ShoppingBag size={20} />
-                  {isAddedToCart ? 'Добавлено в корзину!' : 'Добавить в корзину'}
+                  {isAddedToCart ? `Добавлено ${quantity} шт. в корзину!` : 'Добавить в корзину'}
                 </button>
+                {isAddedToCart && (
+                  <button 
+                    className="btn btn-secondary go-to-cart"
+                    onClick={() => navigate('/cart')}
+                  >
+                    Перейти в корзину
+                  </button>
+                )}
                 <button className="btn btn-secondary wishlist">
                   <Heart size={20} />
                   В избранное
