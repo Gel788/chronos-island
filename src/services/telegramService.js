@@ -4,7 +4,7 @@
 class TelegramService {
   constructor() {
     this.botToken = '8068992681:AAH6YkH82WmCgMTdxF6X5Nf7I4Km0vEWk2w'
-    this.chatId = '3208977801'
+    this.chatId = '-1003208977801' // Правильный chat ID для группы
     this.baseUrl = `https://api.telegram.org/bot${this.botToken}`
   }
 

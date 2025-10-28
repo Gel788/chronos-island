@@ -71,7 +71,8 @@ const TelegramManager = () => {
         </h2>
         <div className="bot-info">
           <p><strong>Бот:</strong> @CHRONOSisland_bot</p>
-          <p><strong>Chat ID:</strong> 3208977801</p>
+          <p><strong>Chat ID:</strong> -1003208977801</p>
+          <p><strong>Тип:</strong> Группа "/CHRONOSisland"</p>
           <p><strong>Статус:</strong> <span className="status-active">Активен</span></p>
         </div>
       </div>
